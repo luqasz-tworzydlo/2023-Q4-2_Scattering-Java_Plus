@@ -1,0 +1,8 @@
+Tabelka do stworzenia [jeśli nie istnieje] w SQLite DB:
+
+CREATE TABLE wpisy (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    body TEXT,
+    userId INTEGER
+);

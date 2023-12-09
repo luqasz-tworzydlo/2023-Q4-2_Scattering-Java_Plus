@@ -41,6 +41,12 @@ class JSON_Placeholder_FakeAPI_SQLite_DB {
         try {
             List<Post> wpisy = pobierzWpisyOdAPI();
             zapiszWpisyDoBazyDanych(wpisy);
+
+            Post wpisDoAktualizacji = new Post(1, "TytułZaktualizowany", "TekstZaktualizowany", 95);
+            aktualizujWpisWbazieDanych(wpisDoAktualizacji);
+
+            usunWpisZbazyDanych(2);
+
         } catch (IOException | InterruptedException e) {
             System.err.println("=> Wystąpił błąd podczas zapytania HTTP: " + e.getMessage());
         } catch (SQLException e) {
@@ -48,7 +54,7 @@ class JSON_Placeholder_FakeAPI_SQLite_DB {
         }
     }
 
-    // pobranie wpisów z API i ich przekształcenie (parsowanie)
+    // GET => pobranie wpisów z API i ich przekształcenie (parsowanie)
     private static List<Post> pobierzWpisyOdAPI() throws IOException, InterruptedException {
         HttpRequest getRequest = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "/posts"))
@@ -74,6 +80,8 @@ class JSON_Placeholder_FakeAPI_SQLite_DB {
         }
         return DriverManager.getConnection(DATABASE_URL);
     }
+
+    // POST => zapisanie wpisów z lokalnej bazie danych SQLite
     private static void zapiszWpisyDoBazyDanych(List<Post> wpisy) throws SQLException {
         // wstawienie nowego wpisu do tabeli wpisy (jeśli wpis z takim samym id już istnieje, wykonaj aktualizację)
         String sql = "INSERT INTO wpisy(id, title, body, userId) VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET title=excluded.title, body=excluded.body, userId=excluded.userId";
@@ -121,6 +129,35 @@ class JSON_Placeholder_FakeAPI_SQLite_DB {
 
         public int getUserId() {
             return userId;
+        }
+    }
+
+    // PUT => aktualizacja wpiszu / wpisów w lokalnej bazie danych SQLite
+    private static void aktualizujWpisWbazieDanych(Post post) throws SQLException {
+        String sql = "UPDATE wpisy SET title = ?, body = ?, userId = ? WHERE id = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, post.getTitle());
+            pstmt.setString(2, post.getBody());
+            pstmt.setInt(3, post.getUserId());
+            pstmt.setInt(4, post.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("=> Wystąpił błąd podczas aktualizacji wpisu w bazie danych: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    // DELETE - usunięcie wpisu / wpisów z lokalnej bazy danych SQLite
+    private static void usunWpisZbazyDanych(int postId) throws SQLException {
+        String sql = "DELETE FROM wpisy WHERE id = ?";
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, postId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("=> Wystąpił błąd podczas usuwania wpisu z bazy danych: " + e.getMessage());
+            throw e;
         }
     }
 }
