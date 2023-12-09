@@ -24,7 +24,7 @@ class JSON_Placeholder_FakeAPI {
         System.out.println("\n/// /// /// /// /// /// /// /// ///");
 
         // Metoda POST ( zapytanie o stworzenie nowego wpisu )
-        String NowyWpisJSON = "{\"title\": \"foo\", \"body\": \"bar\", \"userId\": 1}";
+        String NowyWpisJSON = "{\"title\": \"tytulTestowy\", \"body\": \"tekstTest\", \"userId\": 1}";
         HttpRequest postRequest = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "/posts"))
                 .header("Content-Type", "application/json")
@@ -35,7 +35,7 @@ class JSON_Placeholder_FakeAPI {
         System.out.println("\n/// /// /// /// /// /// /// /// ///");
 
         // Metoda PUT ( zapytanie o aktualizację istniejącego, wybranego wpisu )
-        String ZaktualizowanyWpisJSON = "{\"id\": 1, \"title\": \"foo updated\", \"body\": \"bar updated\", \"userId\": 1}";
+        String ZaktualizowanyWpisJSON = "{\"id\": 1, \"title\": \"tytulTestowy zaktualizowany\", \"body\": \"tekstTest zaktualizowany\", \"userId\": 1}";
         HttpRequest putRequest = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "/posts/1"))
                 .header("Content-Type", "application/json")
