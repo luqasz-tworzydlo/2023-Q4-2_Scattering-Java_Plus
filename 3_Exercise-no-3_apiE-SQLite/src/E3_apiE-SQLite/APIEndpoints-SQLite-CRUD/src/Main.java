@@ -46,9 +46,14 @@ class JSON_Placeholder_FakeAPI_SQLite_DB {
 
     // połączenie z bazą danych
     private static Connection connect() throws SQLException {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            System.err.println("SQLite JDBC driver (nie znaleziono sterownika): " + e.getMessage());
+            throw new SQLException("SQLite JDBC driver (nie naleziono sterownika)", e);
+        }
         return DriverManager.getConnection(DATABASE_URL);
     }
-
     private static void zapiszWpisyDoBazyDanych(List<Post> wpisy) throws SQLException {
         // wstawienie nowego wpisu do tabeli wpisy (jeśli wpis z takim samym id już istnieje, wykonaj aktualizację)
         String sql = "INSERT INTO wpisy(id, title, body, userId) VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET title=excluded.title, body=excluded.body, userId=excluded.userId";
@@ -67,16 +72,13 @@ class JSON_Placeholder_FakeAPI_SQLite_DB {
         }
     }
 
-    // klasa Post (odnosząca się do tworzenia nowych wpisów)
     public static class Post {
         private int id;
         private String title;
         private String body;
         private int userId;
 
-        public Post() {
-            // konstruktor bez argumentów jest wymagany dla Gson'a
-        }
+        public Post() {}
 
         public Post(int id, String title, String body, int userId) {
             this.id = id;
