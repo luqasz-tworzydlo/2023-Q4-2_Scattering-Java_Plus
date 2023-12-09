@@ -6,6 +6,26 @@ import java.net.http.*;
 import java.net.URI;
 import java.io.IOException;
 
+//////////////////////////////////////////////////
+//
+// => Imię i nazwisko: Łukasz Tworzydło
+// => Numer albumu: gd29623
+// => Nr. kierunku: INIS5_PR2
+// => Przedmiot: Przetwarzanie rozproszone [laboratoria]
+//
+//////////////////////////////////////////////////
+//
+// Łukasz Tworzydło - nr albumu: gd29623 [zadanie nr 3]
+//
+//////////////////////////////////////////////////
+// wykorzystano JSON Placeholder API,
+// SQLite DB oraz 4 biblioteki:
+// (1) sqlite-jdbc-3.44.1.0.jar
+// (2) gson-2.10.1.jar
+// (3) slf4j-api-2.0.9.jar
+// (4) slf4j-simple-2.0.9.jar
+//////////////////////////////////////////////////
+
 class JSON_Placeholder_FakeAPI_SQLite_DB {
 
     private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
