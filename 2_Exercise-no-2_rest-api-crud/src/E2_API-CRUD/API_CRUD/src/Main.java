@@ -5,6 +5,19 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 
+//////////////////////////////////////////////////
+//
+// => Imię i nazwisko: Łukasz Tworzydło
+// => Numer albumu: gd29623
+// => Nr. kierunku: INIS5_PR2
+// => Przedmiot: Przetwarzanie rozproszone [laboratoria]
+//
+//////////////////////////////////////////////////
+//
+// Łukasz Tworzydło - nr albumu: gd29623 [zadanie nr 2]
+//
+//////////////////////////////////////////////////
+
 class JSON_Placeholder_FakeAPI {
     private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
     // {JSON} Placeholder Free fake API for testing and prototyping.
