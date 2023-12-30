@@ -41,7 +41,7 @@ class JSON_Placeholder_Client {
     public static void main(String[] args) {
         try {
             // wykonaj metodę GET (GET request) aby wyświetlić wszystkie wpisy
-            System.out.println("Wykonywanie metody GET request dla wszystkich wpisów (posts)...");
+            System.out.println("\nWykonywanie metody GET request dla wszystkich wpisów (posts)...");
             String getResponse = GET_pobierzWpisy();
             System.out.println(getResponse);
 
@@ -196,19 +196,15 @@ class JSON_Placeholder_Client {
 
         // poniżej jest tzw. getter
         // (dla id, title, body, userId)
-
         public int getId() {
             return this.id;
         }
-
         public String getTitle() {
             return this.title;
         }
-
         public String getBody() {
             return this.body;
         }
-
         public int getUserId() {
             return this.userId;
         }
