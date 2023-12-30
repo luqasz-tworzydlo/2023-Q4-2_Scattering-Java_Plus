@@ -83,10 +83,26 @@ class JSON_Placeholder_Client {
 
     // nadanie odpowiedniego formatu dla CRUD, dla metod GET (all), GET (Id), POST, PUT, PATCH, DELETE
     private static String formatWyswietleniaDanych(HttpResponse<String> response) {
-        return String.format("Status: %d, StatusText: %s, Data: %s",
-                response.statusCode(),
-                response.statusCode() == 200 ? "OK" : "Error",
-                response.body());
+        int statusCode = response.statusCode();
+        String body = response.body();
+        String statusText;
+
+        // określ tekst status na podstawie kodu zwrotnego
+        switch (statusCode) {
+            case 200: statusText = "OK"; break;
+            case 204: statusText = "No Content"; break;
+            default: statusText = "Error"; break;
+        }
+
+        // określ tekst dla danych na podstawie stanu kodu oraz dostępnej treści
+        String data;
+        if (statusCode == 204 || (body != null && (body.trim().isEmpty() || "{}".equals(body.trim())))) {
+            data = "No Content";
+        } else {
+            data = body;
+        }
+
+        return String.format("Status: %d, StatusText: %s, Data: %s", statusCode, statusText, data);
     }
 
     // GET => pobranie wpisów z API i nadanie odpowiedniego formatu (dla odpowiedzi)
@@ -158,6 +174,10 @@ class JSON_Placeholder_Client {
                 .build();
 
         HttpResponse<String> deleteResponse = client.send(deleteRequest, BodyHandlers.ofString());
+
+        System.out.println("Raw Status Code: " + deleteResponse.statusCode());
+        System.out.println("Raw Body: '" + deleteResponse.body() + "'");
+
         return formatWyswietleniaDanych(deleteResponse);
     }
 
